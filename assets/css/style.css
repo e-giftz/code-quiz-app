@@ -3,17 +3,27 @@
 *::after {
   box-sizing: border-box;
 }
+:root {
+    --neutral: #eff5f8;
+    --dark: #001b44;
+}
 
 body {
   font-family: sans-serif;
   margin: 0;
   padding: 0;
   font-weight: normal;
-  background-color: #eff5f8;
-  color: #001b44;
+  background-color: var(--neutral);
+  color: var(--dark);
 }
 
-.container {
+.wrapper {
+    padding: 10px ;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.container-info {
     display: block;
     margin: 80px auto;
     text-align: center;
@@ -51,4 +61,33 @@ p {
     cursor: pointer;
     font-size: 1.3em;
     padding: 15px;
+  }
+
+  .quiz-options {
+      display: grid;
+      width: 800px;
+      grid-template-columns: repeat(1, auto);
+      gap: 10px;
+      margin: 20px 0;
+  }
+
+  .btn-answer {
+      border: 1px solid var(--dark);
+      padding: 5px;
+      border-radius: 5px;
+  }
+
+  .btn-answer hover {
+      border-color: black;
+  }
+
+  .btn-answer.correct {
+      background-color: #40ff00;
+  }
+
+  .btn-answer.wrong {
+      background-color: #ff4000;
+  }
+  .hide-container-quiz {
+    display: none;
   }

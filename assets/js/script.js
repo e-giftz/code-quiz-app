@@ -1,96 +1,117 @@
 //var body = document.body;
 var startButton = document.querySelector("#start");
+var containerInfoEl = document.getElementById("container-info");
 var timerEl = document.getElementById("timerCountdown");
 var timeLeft = localStorage.getItem("timeLeft");
 var containerQuizEl = document.getElementById("container-quiz");
-var questionEl = document.getElementById("quizquestions");
-var answerBtnEl = document.getElementById("quiz-options");
+var questionEl = document.querySelector("#quizquestions");
+var answerBtnEl = Array.from(document.querySelectorAll(".option-answer"));
+var highScoreEl = document.getElementById("finalscore");
+//var highScore = localStorage.getItem("highscore");
+var progressText = document.querySelector("#progressText");
+var scoreText = document.querySelector("#score");
 
 
-var isWin = false;
-var randomQuestions;
-var currentQuestionIndex;
+// var nextButton = document.createElement("button");
+// nextButton.innerHTML = "Next";
+// containerQuizEl.appendChild(nextButton);
 
-//timerEl.setAttribute("style", "padding:0px; margin-right: 50px;");
-// Insert function that counts timer
-// Insert function that presents the  questions
+var currentQuestion = {};
+var scorePoints = 20;
+var totalQuestions = 3;
+var getAnswers = true;
+var score = 0;
+var questionCounter = 0;
+var applicableQuestions = [];
 
 startButton.addEventListener("click", startGame);
 
 // Add function to start game
 function startGame(){
-    isWin = false;
+    questionCounter =0;
+    score = 0;
+    applicableQuestions = [...questions];
     timeLeft = 75;
     startButton.classList.add('hide-container-quiz');
-    
-    // Set questions to be displayed randomly
-    //randomQuestions = questions [Math.floor(Math.random() * questions.length)];
-    randomQuestions = questions.sort(() => Math.random() - .5)
-    currentQuestionIndex = 0;
     containerQuizEl.classList.remove('hide-container-quiz');
-    
+    if (containerInfoEl ===  "none") {
+        containerInfoEl.style.display = "block";
+    } 
+    else {
+        containerInfoEl.style.display = "none";
+    }
     
     timerCountdown();
-    setQuestion();
+    setNewQuestion();
 }
 
 // Create function for next question
-function setQuestion() {
-    resetQuiz();
-    displayQuestion(randomQuestions[currentQuestionIndex]);
-}
+function setNewQuestion() {
+    //resetQuiz();
+    if (applicableQuestions.length === 0 || questionCounter > totalQuestions) {
+        localStorage.setItem("mostRecentScore", score);
 
-// Create function to take each of the questions
-function displayQuestion(quizquestions) {
-    questionEl.innerText = quizquestions.question;
-    quizquestions.answers.forEach(answer => {
-        var answerButton = document.createElement("button");
-        answerButton.innerText = answer.text;
-        answerButton.classList.add("btn-answer");
-
-        // Checking for correct answers
-        if (answer.correct) {
-            answerButton.dataset.correct = answer.correct;
-        }
-        // Add event listener for the answer button when it is clicked
-        answerButton.addEventListener("click", checkAnswer);
-        answerBtnEl .appendChild(answerButton);
-    });
-}
-
-// Function to reset quiz 
-function resetQuiz() {
-    while (answerBtnEl.firstChild) {
-        answerBtnEl.removeChild(answerBtnEl.firstChild);
+        return;
     }
-}
+    questionCounter++;
+    progressText.innerText = `Question ${questionCounter} of ${totalQuestions}`;
 
-// Call function to selecr your answer
-function checkAnswer(event) {
-    var element = event.target;
-    var correct = element.dataset.correct;
-    // Create an array from the answers selected
-    Array.from(answerBtnEl.firstChild).forEach(button => {
-        button.dataset.correct
+    // Set questions to be displayed randomly
+    var currentQuestionIndex = Math.floor(Math.random() * applicableQuestions.length);
+    currentQuestion = applicableQuestions[currentQuestionIndex];
+    questionEl.innerText =currentQuestion.question;
+
+    answerBtnEl.forEach(option => {
+        var number = option.dataset['number'];
+        //var answerButton = document.createElement("button");
+
+        option.innerText = currentQuestion['option' + number];
+        
     })
-    clearStatus(element);
-    if (correct) {
-        
-        var correctAnswer = element.classList.add("correct");
-        //correctAnswer.setAttribute("style", "color: green")
-    }
-    else {
-        var wrongAnswer = element.classList.add("wrong");
-        //wrongAnswer.setAttribute("style", "color: red");
-    }
-        
+    applicableQuestions.splice(currentQuestionIndex, 1);
+    getAnswers = true;   
 }
 
-function clearStatus (element) {
-    element.classList.remove("correct");
-    element.classList.remove("wrong");
-}
+answerBtnEl.forEach(option => {
+    option.addEventListener("click", event => {
+        if (!getAnswers)
+        return
+        getAnswers = false;
+        var selectedEl = event.target;
+        event.stopPropagation();
+        var correctAnswer = selectedEl.dataset['number'];
 
+        var setClass = correctAnswer == currentQuestion.answer ? "correct" : "wrong";
+        if (setClass === 'correct') {
+            incrementScore(scorePoints);
+        }
+        //selectedEl.classList.add("correct");
+        //     event.currentTarget.setAttribute(
+        //         "style",
+        //         "background-color: green"
+        //     );
+    
+        // if ("correct") {
+        //     incrementScore(scorePoints);
+        //     event.currentTarget.setAttribute(
+        //         "style",
+        //         "background-color: green"
+        //     );
+        // }
+        selectedEl.parentElement.classList.add(setClass);
+
+        setTimeout(() => {
+            selectedEl.parentElement.classList.remove(setClass);
+            setNewQuestion();
+        }, 1000)
+    })
+    
+    
+})
+incrementScore = num => {
+    score +=num;
+    scoreText.innerText = score;
+}
 
 
 // Timer that counts down from 75
@@ -103,7 +124,7 @@ function timerCountdown() {
         timerEl.textContent = timeLeft; 
         
         if (timeLeft >= 0){
-            if (isWin && timeLeft > 0) {
+            if (getAnswers && timeLeft > 0) {
                 clearInterval(timeInterval);
             }
         }
@@ -116,17 +137,35 @@ function timerCountdown() {
 }
 
 // Create a list to store object for questions and answers
-const questions  = [
+var questions  = [
     {
         question: "Commonly used data types do not include:",
-        answers: [
-            {text: 'strings', correct: false },
-            {text: 'booleans', correct: false},
-            {text: 'alerts', correct: true},
-            {text: 'numbers', correct: false}
-        ]
+        option1: "strings",
+        option2: "booleans",
+        option3: "alerts",
+        option4: "numbers",
+        answer: 3,
+        
+    },
+    {
+        question: "The condition in an if/else statement is enclosed within _____",
+        option1: "quotes",
+        option2: "curly brackets",
+        option3: "parenthesis",
+        option4: "square brackets",
+        answer: 3,
+    
+    },
+    {
+        question: "Arrays in Javascript can be used to store ___________",
+        option1: "numbers and strings",
+        option2: "other arrays",
+        option3: "booleans",
+        option4: "all of  the above",
+        answer: 1,
+        
     }
-]
+];
 
 
   

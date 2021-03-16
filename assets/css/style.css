@@ -23,6 +23,15 @@ body {
     text-align: center;
 }
 
+.title-info {
+    display: block;
+    margin: 80px auto;
+    text-align: center;
+    transition: 0.3s;
+    width: 60vw;
+    padding-top: 20px;
+}
+
 .container-info {
     display: block;
     margin: 80px auto;
@@ -38,13 +47,20 @@ h1 {
     font-weight: bold;
 }
 
-h2 {
+h2, h3 {
     position: absolute;
     top: -10px;
-    right: 20px;
     margin: 40px auto;
     font-size: 1.5em;
     font-weight: bold;
+}
+
+h2 {
+    right: 20px;
+}
+
+h3 {
+    left: 20px;
 }
 
 p {
@@ -71,23 +87,30 @@ p {
       margin: 20px 0;
   }
 
-  .btn-answer {
+  .option-answer {
       border: 1px solid var(--dark);
       padding: 5px;
       border-radius: 5px;
   }
 
-  .btn-answer hover {
+  .nextbtn {
+    border: 1px solid var(--dark);
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  .option-answer hover {
       border-color: black;
   }
 
-  .btn-answer.correct {
+  .correct {
       background-color: #40ff00;
   }
 
-  .btn-answer.wrong {
+  .wrong {
       background-color: #ff4000;
   }
+
   .hide-container-quiz {
     display: none;
   }

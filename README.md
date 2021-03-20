@@ -13,18 +13,15 @@ After all questions is answered or time runs out, the result is displayed.
 If the user fails a question, the timer is reduced by 10seconds.
 
 ## Links to deployed application
-* URL of deployed application: https://e-giftz.github.io/Password-Generator-Application/
+* URL of deployed application: https://e-giftz.github.io/code-quiz-app/
 
-* URL of GitHub repository containing the code: https://github.com/e-giftz/Password-Generator-Application
+* URL of GitHub repository containing the code: https://github.com/e-giftz/code-quiz-app
 
 ## Screenshots of Web App
 
-![Password Generator App ](images/PasswordGeneratorApp.png)
+![Code Quiz App ](images/CodeQuizApp.png)
 
-![Password Generator App Output ](images/PasswordAppOutput.png)
+![Code Quiz Display ](images/CodeQuizDisplay.png)
 
-## Password Generator App Demo
-
-![Password Generator App Demo ](images/PasswordAppDemo.gif)
 
 

@@ -18,18 +18,16 @@ var userList = document.querySelector("#user-list");
 
 var currentQuestion = {};
 var scorePoints = 20;
-var totalQuestions = 3;
+var totalQuestions = 8;
 var getAnswers = true;
 var score = 0;
 var questionCounter = 0;
 var applicableQuestions = [];
-//var users = [];
 var users = Array.from(localStorage.getItem("users"));
 
 startButton.addEventListener("click", startGame);
 // Add function to start game
 function startGame(){
-    console.log("hello");
     questionCounter =0;
     score = 0;
     timeLeft = 75;
@@ -51,11 +49,14 @@ function timerCountdown() {
     
     // Method to call timer function
     var timeInterval = setInterval(function () {
-        timeLeft--; 
+        timeLeft--;
         timerEl.textContent = timeLeft; 
         
         if (timeLeft >= 0){
             if (getAnswers && timeLeft > 0) {
+
+            }else if (!(getAnswers) && !(timeLeft > 0)){
+                document.getElementById("container-quiz").style.display = "none";
             }
         }
         // Check if time is run out
@@ -65,14 +66,6 @@ function timerCountdown() {
         
     }, 1000);
 }
-
-//storeUserInitials(users);
-    
-// function storeUserInitials(data) {
-//     // Stringify and set key in localStorage to todos array
-//     localStorage.setItem("users", JSON.stringify(data));
-//     console.log('users');
-// }
 
 //Get the high score from the local storage
   var highScore = JSON.parse(localStorage.getItem("highScore")) || [];
@@ -89,16 +82,6 @@ userInitialsEl.addEventListener('keyup', ()=> {
 
 submitScoreBtnEl.addEventListener("click", function(event) {
     event.preventDefault();
-    //alert("testing")
-    // var userInitialsText = userInitialsEl.value.trim();
-
-    // //return if submitted is blank
-    // if (userInitialsText ==="") {
-    //    return;
-    // }
-
-    // users.push(userInitialsText);
-    // userInitialsEl.value ="";
     var score = {
        score: mostRecentScoreEl,
        name: userInitialsEl.value
@@ -120,22 +103,6 @@ submitScoreBtnEl.addEventListener("click", function(event) {
     }).join('')
     
 })
-
-// renderUserInitials();
-// function renderUserInitials() {
-
-//     // for (var i = 0; i < userScore.length; i++){
-//     //     var node = document.createElement("p");
-//     //     node.textContent = users[i] + " " + userScore[i];
-//     //     finalScoreEl.append(node);
-//     //     console.log('happy');
-//     // }
-//     userList.innerHTML = 
-//     highScore.map(score => {
-//         return `<li class="high-score">${score.name} - ${score.score}</li>`
-//     }).join('')
-    
-// }
 // Create a list to store object for questions and answers
 var questions  = [
     {
@@ -163,6 +130,51 @@ var questions  = [
         option3: "booleans",
         option4: "all of  the above",
         answer: 1,
+        
+    },
+    {
+        question: "Which of the following is a disadvantage of using JavaScript?",
+        option1: "Client-side JavaScript does not allow the reading or writing of files.",
+        option2: "JavaScript can not be used for Networking applications because there is no such support available.",
+        option3: "JavaScript doesn't have any multithreading or multiprocess capabilities.",
+        option4: "all of  the above",
+        answer: 4,
+        
+    },
+    {
+        question: "Which of the following is the correct syntax to print a page using JavaScript?",
+        option1: "window.print();",
+        option2: "browser.print();",
+        option3: "navigator.print();",
+        option4: "adocument.print();",
+        answer: 1,
+        
+    },
+    {
+        question: "Which of the following type of variable is visible only within a function where it is defined?",
+        option1: "global variable",
+        option2: "local variable",
+        option3: "both of the above",
+        option4: "none of  the above",
+        answer: 2,
+        
+    },
+    {
+        question: "Which built-in method returns the calling string value converted to lower case?",
+        option1: "toLowerCase()",
+        option2: "toLower()",
+        option3: "changeCase(case)",
+        option4: "none of  the above",
+        answer: 1,
+        
+    },
+    {
+        question: "Which of the following function of String object returns the index within the calling String object of the first occurrence of the specified value?",
+        option1: "substr()",
+        option2: "search()",
+        option3: "lastIndexOf()",
+        option4: "indexOf()",
+        answer: 4,
         
     }
 ];
@@ -199,6 +211,10 @@ answerBtnEl.forEach(option => {
         var setClass = correctAnswer == currentQuestion.answer ? "correct" : "wrong";
         if (setClass === 'correct') {
             incrementScore(scorePoints);
+        }else {
+             var decreaseTimer = timeLeft-10;
+             console.log(decreaseTimer);
+             timeLeft=decreaseTimer;
         }
 
         selectedEl.parentElement.classList.add(setClass);

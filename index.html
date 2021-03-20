@@ -9,12 +9,12 @@
     <title>Code Quiz</title>
 </head>
 <body>
-    <div class="wrapper">
-        <div class="title-info">
+    <div id="wrapper" class="justify-center flex-column">
+        <div id="container-title" class="container-title">
             <h1>Coding Quiz Challenge</h1>
             <h2>Time: <span id="timerCountdown">0</span></h2>
-            <h3> View Highscores</h3>
-            <p>Score: <span id="score">0</span></p>
+            <h3 id="viewHighScores"> View Highscores</h3>
+            <!-- <p>Score: <span id="score">0</span></p> -->
         </div>
         <div id="container-info" class="container-info">
             <p> Try to answer the following code-related questions within the time limit allowed. Keep in mind that incorrect answers will penalize your score time by ten (10) seconds</p>
@@ -24,27 +24,34 @@
         <div id="container-quiz" class="hide-container-quiz">
             <div id="quizquestions">Arrays in Javascript can be used to store ___________.</div>
             <div id="quiz-options" class="btn-options">
-                <button class="option-answer" data-number="1">numbers and strings</button>
+                <p class="option-answer" data-number="1">numbers and strings</p>
+                <p class="option-answer" data-number="2">other arrays</p>
+                <p class="option-answer" data-number="3">booleans</p>
+                <p class="option-answer" data-number="4">all of the above</p>
+                <!-- <button class="option-answer" data-number="1">numbers and strings</button>
                 <button class="option-answer" data-number="2">other arrays</button>
                 <button class="option-answer" data-number="3">booleans</button>
-                <button class="option-answer" data-number="4">all of the above</button>
+                <button class="option-answer" data-number="4">all of the above</button> -->
                 <hr>
                 <p id="progressText">Question</p>
             </div>
             
         </div>
         <!-- Quiz Scores box -->
-        <div id="scorebox">
+        <div id="container-scorebox" class="container-scorebox">
             <p>All done!</p>
             <br>
             <p>Your final score is: <span id="finalscore">0</span></p>
-            <form id="score-form" method="POST">
+            <form class="score-form-container" id="score-form" method="POST">
                 <label for="score-text">Enter initials: </label>
-                <input type="text" placeholder="initials..." name="score-text" id="score-text" />
-                <button id="submit">Submit</button>
+                <input type="text" name="username" id="userid" placeholder="initials...">
+                <button class="btnSubmit" id="submit-form" type="submit-form"  disabled>Submit</button>
             </form>
         </div>
-
+        <div id="container-highScores" class="container-highScores">
+            <p>Highscores</p>
+            <ul id="user-list"></ul>
+        </div>
         
     </div>
        
